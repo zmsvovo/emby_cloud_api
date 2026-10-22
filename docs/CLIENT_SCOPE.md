@@ -1,8 +1,10 @@
 # Hills / Yamby / SenPlayer compatibility scope
 
 The target is the direct-play client workflow, not the complete Emby API.
-Client versions/platforms and real-device validation remain to be recorded.
-No client-specific required-call list has been verified yet.
+Hills Lite 1.5.5 has been checked for login, browsing, item details and
+playback of a short local MP4. Seeking, track/subtitle switching, a reachable
+STRM and Yamby/SenPlayer still need client validation. No client-specific
+required-call list has been verified yet.
 
 The Excel checklist currently preselects 75 HTTP operations: 61 have basic
 implementations and 14 are proposed enhancements. Existing route limitations
@@ -27,8 +29,9 @@ and user notes remain visible; selection does not imply client certification.
 
 ## Remaining Work
 
-1. Validate actual Hills/Yamby/SenPlayer request/response expectations, including
-   source selection, subtitle-off, alternate audio and episode continuation.
+1. Extend Hills validation and test Yamby/SenPlayer request/response
+   expectations, including source selection, subtitle-off, alternate audio
+   and episode continuation.
 2. Add selected home-section, genre/tag/year browsing and optional extra-media
    responses when required by the chosen client workflows. The Excel selections
    are a proposed scope, not evidence that each client calls every endpoint.
@@ -64,3 +67,12 @@ A focused Docker smoke check passed with two healthy workers: two versions,
 two audio tracks in the selected version, Range 206, subtitle-off, external
 SRT-to-VTT conversion and embedded text subtitle extraction. Temporary media
 was removed after the check. This does not replace real-client validation.
+
+## Hills Lite check on 2026-10-22
+
+Hills Lite 1.5.5 logged in, displayed the `Media` library and `Local`/`Remote`
+items, showed Local's MP4/video/audio details, and rendered the short Local
+test video with visible playback progress. The two-second clip cannot establish
+seek or resume behavior. `Remote.strm` points to an `example.com` placeholder,
+so actual STRM playback, alternate tracks, subtitles and other clients remain
+unverified.

@@ -7,6 +7,8 @@ mounts, and the gateway merges their catalogs into one server.
 See [API compatibility](docs/API_COMPATIBILITY.md) for the implemented
 48 route patterns / 61 HTTP operations, supported query parameters and
 the explicitly unimplemented features.
+The [progress handoff](docs/PROGRESS_HANDOFF.md) records tested workflows
+and current follow-up work.
 
 Multi-version files, audio/subtitle track metadata, external text subtitles
 and local embedded text subtitle extraction are supported. See

@@ -145,4 +145,6 @@ STRM URLs themselves are not probed.
 - Transcoding remains intentionally out of scope.
 
 Unsupported endpoints return 404 and are logged. This project does not claim
-complete Emby compatibility; Hills/Yamby/SenPlayer still require real-device testing.
+complete Emby compatibility. Hills Lite 1.5.5 has passed a short local-file
+login/browse/play check; broader Hills workflows and Yamby/SenPlayer still
+require real-client testing.
