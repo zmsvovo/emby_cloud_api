@@ -1,0 +1,7 @@
+/target
+/.env
+/media
+/.artifact-work/
+*.db
+*.db-shm
+*.db-wal

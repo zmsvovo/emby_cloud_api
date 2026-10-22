@@ -1,0 +1,13 @@
+services:
+  caddy:
+    environment:
+      EMBY_DOMAIN: ${EMBY_DOMAIN:?Set EMBY_DOMAIN in .env}
+    ports: !override
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile.production:/etc/caddy/Caddyfile:ro
+
+  gateway:
+    environment:
+      EMBY_PUBLIC_URL: https://${EMBY_DOMAIN:?Set EMBY_DOMAIN in .env}

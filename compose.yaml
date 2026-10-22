@@ -1,0 +1,64 @@
+services:
+  caddy:
+    image: caddy:2
+    ports:
+      - "127.0.0.1:8096:80"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+    depends_on:
+      - gateway
+    restart: unless-stopped
+
+  gateway:
+    build: .
+    environment:
+      EMBY_ROLE: gateway
+      EMBY_BIND: 0.0.0.0:8096
+      EMBY_DATABASE: /data/bridge.db
+      EMBY_ADMIN_NAME: ${EMBY_ADMIN_NAME:-admin}
+      EMBY_ADMIN_PASSWORD: ${EMBY_ADMIN_PASSWORD:?Set EMBY_ADMIN_PASSWORD in .env}
+      EMBY_INTERNAL_KEY: ${EMBY_INTERNAL_KEY:?Set EMBY_INTERNAL_KEY in .env}
+      EMBY_SERVER_NAME: ${EMBY_SERVER_NAME:-Emby Bridge}
+      EMBY_NODE_TTL_SECONDS: 35
+    volumes:
+      - bridge-data:/data
+    restart: unless-stopped
+
+  node-a:
+    build: .
+    environment:
+      EMBY_ROLE: worker
+      EMBY_BIND: 0.0.0.0:8097
+      EMBY_NODE_ID: node-a
+      EMBY_ADVERTISE_URL: http://node-a:8097
+      EMBY_GATEWAY_URL: http://gateway:8096
+      EMBY_INTERNAL_KEY: ${EMBY_INTERNAL_KEY:?Set EMBY_INTERNAL_KEY in .env}
+      EMBY_LIBRARIES_JSON: '[{"name":"Media","path":"/media"}]'
+      EMBY_NODE_WEIGHT: 1
+    volumes:
+      - ./media:/media:ro
+    depends_on:
+      - gateway
+    restart: unless-stopped
+
+  node-b:
+    build: .
+    environment:
+      EMBY_ROLE: worker
+      EMBY_BIND: 0.0.0.0:8097
+      EMBY_NODE_ID: node-b
+      EMBY_ADVERTISE_URL: http://node-b:8097
+      EMBY_GATEWAY_URL: http://gateway:8096
+      EMBY_INTERNAL_KEY: ${EMBY_INTERNAL_KEY:?Set EMBY_INTERNAL_KEY in .env}
+      EMBY_LIBRARIES_JSON: '[{"name":"Media","path":"/media"}]'
+      EMBY_NODE_WEIGHT: 1
+    volumes:
+      - ./media:/media:ro
+    depends_on:
+      - gateway
+    restart: unless-stopped
+
+volumes:
+  bridge-data:
+  caddy-data:
